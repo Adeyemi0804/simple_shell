@@ -1,7 +1,7 @@
 #include "kade.h"
 
 /**
- * is_chain - test if current char in buffer is a chain delimeter
+ * kade_is_chain - test if current char in buffer is a chain delimeter
  * @info: the parameter struct
  * @buf: the char buffer
  * @p: address of current position in buf
@@ -36,7 +36,7 @@ int kade_is_chain(info_t *info, char *buf, size_t *p)
 }
 
 /**
- * check_chain - checks we should continue chaining based on last status
+ * kade_check_chain - checks we should continue chaining based on last status
  * @info: the parameter struct
  * @buf: the char buffer
  * @p: address of current position in buf
@@ -70,7 +70,7 @@ void kade_check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
 }
 
 /**
- * replace_alias - replaces an aliases in the tokenized string
+ * kade_replace_alias - replaces an aliases in the tokenized string
  * @info: the parameter struct
  *
  * Return: 1 if replaced, 0 otherwise
@@ -99,7 +99,7 @@ int kade_replace_alias(info_t *info)
 }
 
 /**
- * replace_vars - replaces vars in the tokenized string
+ * kade_replace_vars - replaces vars in the tokenized string
  * @info: the parameter struct
  *
  * Return: 1 if replaced, 0 otherwise
@@ -140,7 +140,7 @@ int kade_replace_vars(info_t *info)
 }
 
 /**
- * replace_string - replaces string
+ * kade_replace_string - replaces string
  * @old: address of old string
  * @new: new string
  *

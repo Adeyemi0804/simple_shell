@@ -1,7 +1,7 @@
 #include "kade.h"
 
 /**
- * get_environ - returns the string array copy of our environ
+ * kade_get_environ - returns the string array copy of our environ
  * @info: Structure containing potential arguments. Used to maintain
  *          constant function prototype.
  * Return: Always 0
@@ -18,7 +18,7 @@ char **kade_get_environ(info_t *info)
 }
 
 /**
- * _unsetenv - Remove an environment variable
+ * kade_unsetenv - Remove an environment variable
  * @info: Structure containing potential arguments. Used to maintain
  *        constant function prototype.
  *  Return: 1 on delete, 0 otherwise
@@ -50,7 +50,7 @@ int kade_unsetenv(info_t *info, char *var)
 }
 
 /**
- * _setenv - Initialize a new environment variable,
+ * kade_setenv - Initialize a new environment variable,
  *             or modify an existing one
  * @info: Structure containing potential arguments. Used to maintain
  *        constant function prototype.

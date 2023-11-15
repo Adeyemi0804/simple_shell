@@ -56,7 +56,7 @@ char **kade_list_to_strings(list_t *head)
 
 
 /**
- * print_list - prints all elements of a list_t linked list
+ * kade_print_list - prints all elements of a list_t linked list
  * @h: pointer to first node
  *
  * Return: size of list
@@ -79,7 +79,7 @@ size_t kade_print_list(const list_t *h)
 }
 
 /**
- * node_starts_with - returns node whose string starts with prefix
+ * kade_node_starts_with - returns node whose string starts with prefix
  * @node: pointer to list head
  * @prefix: string to match
  * @c: the next character after prefix to match
@@ -101,7 +101,7 @@ list_t *kade_node_starts_with(list_t *node, char *prefix, char c)
 }
 
 /**
- * get_node_index - gets the index of a node
+ * kade_get_node_index - gets the index of a node
  * @head: pointer to list head
  * @node: pointer to the node
  *
