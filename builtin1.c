@@ -88,28 +88,32 @@ int kade_print_alias(list_t *node)
  */
 int kade_myalias(info_t *info)
 {
-	int i = 0;
-	char *p = NULL;
-	list_t *node = NULL;
+    int i = 0;
+    char *p = NULL;
+    list_t *node = NULL;
 
-	if (info->argc == 1)
-	{
-		node = info->alias;
-		while (node)
-		{
-			kade_print_alias(node);
-			node = node->next;
-		}
-		return (0);
-	}
-	for (i = 1; info->argv[i]; i++)
-	{
-		p = kade_strchr(info->argv[i], '=');
-		if (p)
-			kade_set_alias(info, info->argv[i]);
-		else
-			kade_print_alias(kade_node_starts_with(info->alias, info->argv[i], '='));
-	}
+    if (info->argc == 1)
+    {
+        node = info->alias;
+        while (node)
+        {
+            kade_print_alias(node);
+            node = node->next;
+        }
+        return 0;
+    }
 
-	return (0);
+    i = 1;
+    while (info->argv[i])
+    {
+        p = kade_strchr(info->argv[i], '=');
+        if (p)
+            kade_set_alias(info, info->argv[i]);
+        else
+            kade_print_alias(kade_node_starts_with(info->alias, info->argv[i], '='));
+
+        i++;
+    }
+
+    return 0;
 }

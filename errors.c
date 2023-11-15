@@ -73,13 +73,15 @@ int kade_putfd(char c, int fd)
  */
 int kade_putsfd(char *str, int fd)
 {
-	int i = 0;
+    int i = 0;
 
-	if (!str)
-		return (0);
-	while (*str)
-	{
-		i += kade_putfd(*str++, fd);
-	}
-	return (i);
+    if (!str)
+        return (0);
+
+    for (; *str; str++)
+    {
+        i += kade_putfd(*str, fd);
+    }
+
+    return (i);
 }
