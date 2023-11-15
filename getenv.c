@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "kade.h"
 
 /**
  * get_environ - returns the string array copy of our environ
@@ -6,11 +6,11 @@
  *          constant function prototype.
  * Return: Always 0
  */
-char **get_environ(info_t *info)
+char **kade_get_environ(info_t *info)
 {
 	if (!info->environ || info->env_changed)
 	{
-		info->environ = list_to_strings(info->env);
+		info->environ = kade_list_to_strings(info->env);
 		info->env_changed = 0;
 	}
 
@@ -24,7 +24,7 @@ char **get_environ(info_t *info)
  *  Return: 1 on delete, 0 otherwise
  * @var: the string env var property
  */
-int _unsetenv(info_t *info, char *var)
+int kade_unsetenv(info_t *info, char *var)
 {
 	list_t *node = info->env;
 	size_t i = 0;
@@ -35,10 +35,10 @@ int _unsetenv(info_t *info, char *var)
 
 	while (node)
 	{
-		p = starts_with(node->str, var);
+		p = kade_starts_with(node->str, var);
 		if (p && *p == '=')
 		{
-			info->env_changed = delete_node_at_index(&(info->env), i);
+			info->env_changed = kade_delete_node_at_index(&(info->env), i);
 			i = 0;
 			node = info->env;
 			continue;
@@ -58,7 +58,7 @@ int _unsetenv(info_t *info, char *var)
  * @value: the string env var value
  *  Return: Always 0
  */
-int _setenv(info_t *info, char *var, char *value)
+int kade_setenv(info_t *info, char *var, char *value)
 {
 	char *buf = NULL;
 	list_t *node;
@@ -67,16 +67,16 @@ int _setenv(info_t *info, char *var, char *value)
 	if (!var || !value)
 		return (0);
 
-	buf = malloc(_strlen(var) + _strlen(value) + 2);
+	buf = malloc(kade_strlen(var) + kade_strlen(value) + 2);
 	if (!buf)
 		return (1);
-	_strcpy(buf, var);
-	_strcat(buf, "=");
-	_strcat(buf, value);
+	kade_strcpy(buf, var);
+	kade_strcat(buf, "=");
+	kade_strcat(buf, value);
 	node = info->env;
 	while (node)
 	{
-		p = starts_with(node->str, var);
+		p = kade_starts_with(node->str, var);
 		if (p && *p == '=')
 		{
 			free(node->str);
@@ -86,7 +86,7 @@ int _setenv(info_t *info, char *var, char *value)
 		}
 		node = node->next;
 	}
-	add_node_end(&(info->env), buf, 0);
+	kade_add_node_end(&(info->env), buf, 0);
 	free(buf);
 	info->env_changed = 1;
 	return (0);

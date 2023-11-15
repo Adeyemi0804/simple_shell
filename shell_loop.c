@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "kade.h"
 
 /**
  * hsh - main shell loop
@@ -14,25 +14,25 @@ int hsh(info_t *info, char **av)
 
 	while (r != -1 && builtin_ret != -2)
 	{
-		clear_info(info);
-		if (interactive(info))
-			_puts("$ ");
-		_eputchar(BUF_FLUSH);
-		r = get_input(info);
+		kade_clear_info(info);
+		if (kade_interactive(info))
+			kade_puts("$ ");
+		kade_eputchar(BUF_FLUSH);
+		r = kade_get_input(info);
 		if (r != -1)
 		{
-			set_info(info, av);
-			builtin_ret = find_builtin(info);
+			kade_set_info(info, av);
+			builtin_ret = kade_find_builtin(info);
 			if (builtin_ret == -1)
-				find_cmd(info);
+				kade_find_cmd(info);
 		}
-		else if (interactive(info))
-			_putchar('\n');
-		free_info(info, 0);
+		else if (kade_interactive(info))
+		kade_putchar('\n');
+		kade_free_info(info, 0);
 	}
-	write_history(info);
-	free_info(info, 1);
-	if (!interactive(info) && info->status)
+	kade_write_history(info);
+	kade_free_info(info, 1);
+	if (!kade_interactive(info) && info->status)
 		exit(info->status);
 	if (builtin_ret == -2)
 	{
@@ -44,7 +44,7 @@ int hsh(info_t *info, char **av)
 }
 
 /**
- * find_builtin - finds a builtin command
+ * int is_cmd(info_t *, char *);find_builtin - finds a builtin command
  * @info: the parameter & return info struct
  *
  * Return: -1 if builtin not found,
@@ -52,23 +52,23 @@ int hsh(info_t *info, char **av)
  *			1 if builtin found but not successful,
  *			-2 if builtin signals exit()
  */
-int find_builtin(info_t *info)
+int kade_find_builtin(info_t *info)
 {
 	int i, built_in_ret = -1;
 	builtin_table builtintbl[] = {
-		{"exit", _myexit},
-		{"env", _myenv},
-		{"help", _myhelp},
-		{"history", _myhistory},
-		{"setenv", _mysetenv},
-		{"unsetenv", _myunsetenv},
-		{"cd", _mycd},
-		{"alias", _myalias},
+		{"exit", kade_myexit},
+		{"env", kade_myenv},
+		{"help", kade_myhelp},
+		{"history", kade_myhistory},
+		{"setenv", kade_mysetenv},
+		{"unsetenv", kade_myunsetenv},
+		{"cd", kade_mycd},
+		{"alias", kade_myalias},
 		{NULL, NULL}
 	};
 
 	for (i = 0; builtintbl[i].type; i++)
-		if (_strcmp(info->argv[0], builtintbl[i].type) == 0)
+		if (kade_strcmp(info->argv[0], builtintbl[i].type) == 0)
 		{
 			info->line_count++;
 			built_in_ret = builtintbl[i].func(info);
@@ -78,12 +78,12 @@ int find_builtin(info_t *info)
 }
 
 /**
- * find_cmd - finds a command in PATH
+ * kade_find_cmd - finds a command in PATH
  * @info: the parameter & return info struct
  *
  * Return: void
  */
-void find_cmd(info_t *info)
+void kade_find_cmd(info_t *info)
 {
 	char *path = NULL;
 	int i, k;
@@ -95,12 +95,12 @@ void find_cmd(info_t *info)
 		info->linecount_flag = 0;
 	}
 	for (i = 0, k = 0; info->arg[i]; i++)
-		if (!is_delim(info->arg[i], " \t\n"))
+		if (!kade_is_delim(info->arg[i], " \t\n"))
 			k++;
 	if (!k)
 		return;
 
-	path = find_path(info, _getenv(info, "PATH="), info->argv[0]);
+	path = kade_find_path(info, kade_getenv(info, "PATH="), info->argv[0]);
 	if (path)
 	{
 		info->path = path;
@@ -108,13 +108,13 @@ void find_cmd(info_t *info)
 	}
 	else
 	{
-		if ((interactive(info) || _getenv(info, "PATH=")
-			|| info->argv[0][0] == '/') && is_cmd(info, info->argv[0]))
+		if ((kade_interactive(info) || kade_getenv(info, "PATH=")
+			|| info->argv[0][0] == '/') && kade_is_cmd(info, info->argv[0]))
 			fork_cmd(info);
 		else if (*(info->arg) != '\n')
 		{
 			info->status = 127;
-			print_error(info, "not found\n");
+			kade_print_error(info, "not found\n");
 		}
 	}
 }
@@ -138,9 +138,9 @@ void fork_cmd(info_t *info)
 	}
 	if (child_pid == 0)
 	{
-		if (execve(info->path, info->argv, get_environ(info)) == -1)
+		if (execve(info->path, info->argv, kade_get_environ(info)) == -1)
 		{
-			free_info(info, 1);
+			kade_free_info(info, 1);
 			if (errno == EACCES)
 				exit(126);
 			exit(1);
@@ -154,7 +154,7 @@ void fork_cmd(info_t *info)
 		{
 			info->status = WEXITSTATUS(info->status);
 			if (info->status == 126)
-				print_error(info, "Permission denied\n");
+				kade_print_error(info, "Permission denied\n");
 		}
 	}
 }

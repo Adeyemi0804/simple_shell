@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "kade.h"
 
 /**
  * _strcpy - copies a string
@@ -7,7 +7,7 @@
  *
  * Return: pointer to destination
  */
-char *_strcpy(char *dest, char *src)
+char *kade_strcpy(char *dest, char *src)
 {
 	int i = 0;
 
@@ -28,7 +28,7 @@ char *_strcpy(char *dest, char *src)
  *
  * Return: pointer to the duplicated string
  */
-char *_strdup(const char *str)
+char *kade_strdup(const char *str)
 {
 	int length = 0;
 	char *ret;
@@ -51,7 +51,7 @@ char *_strdup(const char *str)
  *
  * Return: Nothing
  */
-void _puts(char *str)
+void kade_puts(char *str)
 {
 	int i = 0;
 
@@ -59,7 +59,7 @@ void _puts(char *str)
 		return;
 	while (str[i] != '\0')
 	{
-		_putchar(str[i]);
+		kade_putchar(str[i]);
 		i++;
 	}
 }
@@ -71,7 +71,7 @@ void _puts(char *str)
  * Return: On success 1.
  * On error, -1 is returned, and errno is set appropriately.
  */
-int _putchar(char c)
+int kade_putchar(char c)
 {
 	static int i;
 	static char buf[WRITE_BUF_SIZE];

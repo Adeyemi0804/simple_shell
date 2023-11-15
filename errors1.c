@@ -1,12 +1,11 @@
-#include "shell.h"
+#include "kade.h"
 
 /**
- * _erratoi - converts a string to an integer
- * @s: the string to be converted
+ * kade@s: the string to be converted
  * Return: 0 if no numbers in string, converted number otherwise
  *       -1 on error
  */
-int _erratoi(char *s)
+int kade_erratoi(char *s)
 {
 	int i = 0;
 	unsigned long int result = 0;
@@ -35,15 +34,15 @@ int _erratoi(char *s)
  * Return: 0 if no numbers in string, converted number otherwise
  *        -1 on error
  */
-void print_error(info_t *info, char *estr)
+void kade_print_error(info_t *info, char *estr)
 {
-	_eputs(info->fname);
-	_eputs(": ");
-	print_d(info->line_count, STDERR_FILENO);
-	_eputs(": ");
-	_eputs(info->argv[0]);
-	_eputs(": ");
-	_eputs(estr);
+	kade_eputs(info->fname);
+	kade_eputs(": ");
+	kade_print_d(info->line_count, STDERR_FILENO);
+	kade_eputs(": ");
+	kade_eputs(info->argv[0]);
+	kade_eputs(": ");
+	kade_eputs(estr);
 }
 
 /**
@@ -53,14 +52,14 @@ void print_error(info_t *info, char *estr)
  *
  * Return: number of characters printed
  */
-int print_d(int input, int fd)
+int kade_print_d(int input, int fd)
 {
-	int (*__putchar)(char) = _putchar;
+	int (*__putchar)(char) = kade_putchar;
 	int i, count = 0;
 	unsigned int _abs_, current;
 
 	if (fd == STDERR_FILENO)
-		__putchar = _eputchar;
+		__putchar = kade_eputchar;
 	if (input < 0)
 	{
 		_abs_ = -input;
@@ -93,7 +92,7 @@ int print_d(int input, int fd)
  *
  * Return: string
  */
-char *convert_number(long int num, int base, int flags)
+char *kade_convert_number(long int num, int base, int flags)
 {
 	static char *array;
 	static char buffer[50];
@@ -127,7 +126,7 @@ char *convert_number(long int num, int base, int flags)
  *
  * Return: Always 0;
  */
-void remove_comments(char *buf)
+void kade_remove_comments(char *buf)
 {
 	int i;
 

@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "kade.h"
 
 /**
  * input_buf - buffers chained commands
@@ -8,7 +8,7 @@
  *
  * Return: bytes read
  */
-ssize_t input_buf(info_t *info, char **buf, size_t *len)
+ssize_t kade_input_buf(info_t *info, char **buf, size_t *len)
 {
 	ssize_t r = 0;
 	size_t len_p = 0;
@@ -18,11 +18,11 @@ ssize_t input_buf(info_t *info, char **buf, size_t *len)
 		/*bfree((void **)info->cmd_buf);*/
 		free(*buf);
 		*buf = NULL;
-		signal(SIGINT, sigintHandler);
+		signal(SIGINT, kade_sigintHandler);
 #if USE_GETLINE
 		r = getline(buf, &len_p, stdin);
 #else
-		r = _getline(info, buf, &len_p);
+		r = kade_getline(info, buf, &len_p);
 #endif
 		if (r > 0)
 		{
@@ -32,8 +32,8 @@ ssize_t input_buf(info_t *info, char **buf, size_t *len)
 				r--;
 			}
 			info->linecount_flag = 1;
-			remove_comments(*buf);
-			build_history_list(info, *buf, info->histcount++);
+			kade_remove_comments(*buf);
+			kade_build_history_list(info, *buf, info->histcount++);
 			/* if (_strchr(*buf, ';')) is this a command chain? */
 			{
 				*len = r;
@@ -50,15 +50,15 @@ ssize_t input_buf(info_t *info, char **buf, size_t *len)
  *
  * Return: bytes read
  */
-ssize_t get_input(info_t *info)
+ssize_t kade_get_input(info_t *info)
 {
 	static char *buf; /* the ';' command chain buffer */
 	static size_t i, j, len;
 	ssize_t r = 0;
 	char **buf_p = &(info->arg), *p;
 
-	_putchar(BUF_FLUSH);
-	r = input_buf(info, &buf, &len);
+	kade_putchar(BUF_FLUSH);
+	r = kade_input_buf(info, &buf, &len);
 	if (r == -1) /* EOF */
 		return (-1);
 	if (len)	/* we have commands left in the chain buffer */
@@ -66,10 +66,10 @@ ssize_t get_input(info_t *info)
 		j = i; /* init new iterator to current buf position */
 		p = buf + i; /* get pointer for return */
 
-		check_chain(info, buf, &j, i, len);
+		kade_check_chain(info, buf, &j, i, len);
 		while (j < len) /* iterate to semicolon or end */
 		{
-			if (is_chain(info, buf, &j))
+			if (kade_is_chain(info, buf, &j))
 				break;
 			j++;
 		}
@@ -82,7 +82,7 @@ ssize_t get_input(info_t *info)
 		}
 
 		*buf_p = p; /* pass back pointer to current command position */
-		return (_strlen(p)); /* return length of current command */
+		return (kade_strlen(p)); /* return length of current command */
 	}
 
 	*buf_p = buf; /* else not a chain, pass back buffer from _getline() */
@@ -97,7 +97,7 @@ ssize_t get_input(info_t *info)
  *
  * Return: r
  */
-ssize_t read_buf(info_t *info, char *buf, size_t *i)
+ssize_t kade_read_buf(info_t *info, char *buf, size_t *i)
 {
 	ssize_t r = 0;
 
@@ -117,7 +117,7 @@ ssize_t read_buf(info_t *info, char *buf, size_t *i)
  *
  * Return: s
  */
-int _getline(info_t *info, char **ptr, size_t *length)
+int kade_getline(info_t *info, char **ptr, size_t *length)
 {
 	static char buf[READ_BUF_SIZE];
 	static size_t i, len;
@@ -131,20 +131,20 @@ int _getline(info_t *info, char **ptr, size_t *length)
 	if (i == len)
 		i = len = 0;
 
-	r = read_buf(info, buf, &len);
+	r = kade_read_buf(info, buf, &len);
 	if (r == -1 || (r == 0 && len == 0))
 		return (-1);
 
-	c = _strchr(buf + i, '\n');
+	c = kade_strchr(buf + i, '\n');
 	k = c ? 1 + (unsigned int)(c - buf) : len;
-	new_p = _realloc(p, s, s ? s + k : k + 1);
-	if (!new_p) /* MALLOC FAILURE! */
+	new_p = kade_realloc(p, s, s ? s + k : k + 1);
+	if (!new_p)
 		return (p ? free(p), -1 : -1);
 
 	if (s)
-		_strncat(new_p, buf + i, k - i);
+		kade_strncat(new_p, buf + i, k - i);
 	else
-		_strncpy(new_p, buf + i, k - i + 1);
+		kade_strncpy(new_p, buf + i, k - i + 1);
 
 	s += k - i;
 	i = k;
@@ -162,9 +162,9 @@ int _getline(info_t *info, char **ptr, size_t *length)
  *
  * Return: void
  */
-void sigintHandler(__attribute__((unused))int sig_num)
+void kade_sigintHandler(__attribute__((unused))int sig_num)
 {
-	_puts("\n");
-	_puts("$ ");
-	_putchar(BUF_FLUSH);
+	kade_puts("\n");
+	kade_puts("$ ");
+	kade_putchar(BUF_FLUSH);
 }

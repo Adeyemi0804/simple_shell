@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "kade.h"
 
 /**
  * list_len - determines length of linked list
@@ -19,12 +19,12 @@ size_t list_len(const list_t *h)
 }
 
 /**
- * list_to_strings - returns an array of strings of the list->str
+ * kade_list_to_strings - returns an array of strings of the list->str
  * @head: pointer to first node
  *
  * Return: array of strings
  */
-char **list_to_strings(list_t *head)
+char **kade_list_to_strings(list_t *head)
 {
 	list_t *node = head;
 	size_t i = list_len(head), j;
@@ -38,7 +38,7 @@ char **list_to_strings(list_t *head)
 		return (NULL);
 	for (i = 0; node; node = node->next, i++)
 	{
-		str = malloc(_strlen(node->str) + 1);
+		str = malloc(kade_strlen(node->str) + 1);
 		if (!str)
 		{
 			for (j = 0; j < i; j++)
@@ -47,7 +47,7 @@ char **list_to_strings(list_t *head)
 			return (NULL);
 		}
 
-		str = _strcpy(str, node->str);
+		str = kade_strcpy(str, node->str);
 		strs[i] = str;
 	}
 	strs[i] = NULL;
@@ -61,17 +61,17 @@ char **list_to_strings(list_t *head)
  *
  * Return: size of list
  */
-size_t print_list(const list_t *h)
+size_t kade_print_list(const list_t *h)
 {
 	size_t i = 0;
 
 	while (h)
 	{
-		_puts(convert_number(h->num, 10, 0));
-		_putchar(':');
-		_putchar(' ');
-		_puts(h->str ? h->str : "(nil)");
-		_puts("\n");
+		kade_puts(kade_convert_number(h->num, 10, 0));
+		kade_putchar(':');
+		kade_putchar(' ');
+		kade_puts(h->str ? h->str : "(nil)");
+		kade_puts("\n");
 		h = h->next;
 		i++;
 	}
@@ -86,13 +86,13 @@ size_t print_list(const list_t *h)
  *
  * Return: match node or null
  */
-list_t *node_starts_with(list_t *node, char *prefix, char c)
+list_t *kade_node_starts_with(list_t *node, char *prefix, char c)
 {
 	char *p = NULL;
 
 	while (node)
 	{
-		p = starts_with(node->str, prefix);
+		p = kade_starts_with(node->str, prefix);
 		if (p && ((c == -1) || (*p == c)))
 			return (node);
 		node = node->next;
@@ -107,7 +107,7 @@ list_t *node_starts_with(list_t *node, char *prefix, char c)
  *
  * Return: index of node or -1
  */
-ssize_t get_node_index(list_t *head, list_t *node)
+ssize_t kade_get_node_index(list_t *head, list_t *node)
 {
 	size_t i = 0;
 

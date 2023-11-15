@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "kade.h"
 
 /**
  * get_history_file - gets the history file
@@ -7,20 +7,20 @@
  * Return: allocated string containg history file
  */
 
-char *get_history_file(info_t *info)
+char *kade_get_history_file(info_t *info)
 {
 	char *buf, *dir;
 
-	dir = _getenv(info, "HOME=");
+	dir = kade_getenv(info, "HOME=");
 	if (!dir)
 		return (NULL);
-	buf = malloc(sizeof(char) * (_strlen(dir) + _strlen(HIST_FILE) + 2));
+	buf = malloc(sizeof(char) * (kade_strlen(dir) + kade_strlen(HIST_FILE) + 2));
 	if (!buf)
 		return (NULL);
 	buf[0] = 0;
-	_strcpy(buf, dir);
-	_strcat(buf, "/");
-	_strcat(buf, HIST_FILE);
+	kade_strcpy(buf, dir);
+	kade_strcat(buf, "/");
+	kade_strcat(buf, HIST_FILE);
 	return (buf);
 }
 
@@ -30,10 +30,10 @@ char *get_history_file(info_t *info)
  *
  * Return: 1 on success, else -1
  */
-int write_history(info_t *info)
+int kade_write_history(info_t *info)
 {
 	ssize_t fd;
-	char *filename = get_history_file(info);
+	char *filename = kade_get_history_file(info);
 	list_t *node = NULL;
 
 	if (!filename)
@@ -45,10 +45,10 @@ int write_history(info_t *info)
 		return (-1);
 	for (node = info->history; node; node = node->next)
 	{
-		_putsfd(node->str, fd);
-		_putfd('\n', fd);
+		kade_putsfd(node->str, fd);
+		kade_putfd('\n', fd);
 	}
-	_putfd(BUF_FLUSH, fd);
+	kade_putfd(BUF_FLUSH, fd);
 	close(fd);
 	return (1);
 }
@@ -59,12 +59,12 @@ int write_history(info_t *info)
  *
  * Return: histcount on success, 0 otherwise
  */
-int read_history(info_t *info)
+int kade_read_history(info_t *info)
 {
 	int i, last = 0, linecount = 0;
 	ssize_t fd, rdlen, fsize = 0;
 	struct stat st;
-	char *buf = NULL, *filename = get_history_file(info);
+	char *buf = NULL, *filename = kade_get_history_file(info);
 
 	if (!filename)
 		return (0);
@@ -89,16 +89,16 @@ int read_history(info_t *info)
 		if (buf[i] == '\n')
 		{
 			buf[i] = 0;
-			build_history_list(info, buf + last, linecount++);
+			kade_build_history_list(info, buf + last, linecount++);
 			last = i + 1;
 		}
 	if (last != i)
-		build_history_list(info, buf + last, linecount++);
+		kade_build_history_list(info, buf + last, linecount++);
 	free(buf);
 	info->histcount = linecount;
 	while (info->histcount-- >= HIST_MAX)
-		delete_node_at_index(&(info->history), 0);
-	renumber_history(info);
+		kade_delete_node_at_index(&(info->history), 0);
+	kade_renumber_history(info);
 	return (info->histcount);
 }
 
@@ -110,13 +110,13 @@ int read_history(info_t *info)
  *
  * Return: Always 0
  */
-int build_history_list(info_t *info, char *buf, int linecount)
+int kade_build_history_list(info_t *info, char *buf, int linecount)
 {
 	list_t *node = NULL;
 
 	if (info->history)
 		node = info->history;
-	add_node_end(&node, buf, linecount);
+	kade_add_node_end(&node, buf, linecount);
 
 	if (!info->history)
 		info->history = node;
@@ -129,7 +129,7 @@ int build_history_list(info_t *info, char *buf, int linecount)
  *
  * Return: the new histcount
  */
-int renumber_history(info_t *info)
+int kade_renumber_history(info_t *info)
 {
 	list_t *node = info->history;
 	int i = 0;

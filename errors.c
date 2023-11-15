@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "kade.h"
 
 /**
  *_eputs - prints an input string
@@ -6,7 +6,7 @@
  *
  * Return: Nothing
  */
-void _eputs(char *str)
+void kade_eputs(char *str)
 {
 	int i = 0;
 
@@ -14,7 +14,7 @@ void _eputs(char *str)
 		return;
 	while (str[i] != '\0')
 	{
-		_eputchar(str[i]);
+		kade_eputchar(str[i]);
 		i++;
 	}
 }
@@ -26,7 +26,7 @@ void _eputs(char *str)
  * Return: On success 1.
  * On error, -1 is returned, and errno is set appropriately.
  */
-int _eputchar(char c)
+int kade_eputchar(char c)
 {
 	static int i;
 	static char buf[WRITE_BUF_SIZE];
@@ -49,7 +49,7 @@ int _eputchar(char c)
  * Return: On success 1.
  * On error, -1 is returned, and errno is set appropriately.
  */
-int _putfd(char c, int fd)
+int kade_putfd(char c, int fd)
 {
 	static int i;
 	static char buf[WRITE_BUF_SIZE];
@@ -71,7 +71,7 @@ int _putfd(char c, int fd)
  *
  * Return: the number of chars put
  */
-int _putsfd(char *str, int fd)
+int kade_putsfd(char *str, int fd)
 {
 	int i = 0;
 
@@ -79,7 +79,7 @@ int _putsfd(char *str, int fd)
 		return (0);
 	while (*str)
 	{
-		i += _putfd(*str++, fd);
+		i += kade_putfd(*str++, fd);
 	}
 	return (i);
 }

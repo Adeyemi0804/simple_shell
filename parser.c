@@ -1,13 +1,13 @@
-#include "shell.h"
+#include "kade.h"
 
 /**
- * is_cmd - determines if a file is an executable command
+ * kade_is_cmd - determines if a file is an executable command
  * @info: the info struct
  * @path: path to the file
  *
  * Return: 1 if true, 0 otherwise
  */
-int is_cmd(info_t *info, char *path)
+int kade_is_cmd(info_t *info, char *path)
 {
 	struct stat st;
 
@@ -30,7 +30,7 @@ int is_cmd(info_t *info, char *path)
  *
  * Return: pointer to new buffer
  */
-char *dup_chars(char *pathstr, int start, int stop)
+char *kade_dup_chars(char *pathstr, int start, int stop)
 {
 	static char buf[1024];
 	int i = 0, k = 0;
@@ -50,31 +50,31 @@ char *dup_chars(char *pathstr, int start, int stop)
  *
  * Return: full path of cmd if found or NULL
  */
-char *find_path(info_t *info, char *pathstr, char *cmd)
+char *kade_find_path(info_t *info, char *pathstr, char *cmd)
 {
 	int i = 0, curr_pos = 0;
 	char *path;
 
 	if (!pathstr)
 		return (NULL);
-	if ((_strlen(cmd) > 2) && starts_with(cmd, "./"))
+	if ((kade_strlen(cmd) > 2) && kade_starts_with(cmd, "./"))
 	{
-		if (is_cmd(info, cmd))
+		if (kade_is_cmd(info, cmd))
 			return (cmd);
 	}
 	while (1)
 	{
 		if (!pathstr[i] || pathstr[i] == ':')
 		{
-			path = dup_chars(pathstr, curr_pos, i);
+			path = kade_dup_chars(pathstr, curr_pos, i);
 			if (!*path)
-				_strcat(path, cmd);
+				kade_strcat(path, cmd);
 			else
 			{
-				_strcat(path, "/");
-				_strcat(path, cmd);
+				kade_strcat(path, "/");
+				kade_strcat(path, cmd);
 			}
-			if (is_cmd(info, path))
+			if (kade_is_cmd(info, path))
 				return (path);
 			if (!pathstr[i])
 				break;
