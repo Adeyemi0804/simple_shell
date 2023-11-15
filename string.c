@@ -1,7 +1,7 @@
 #include "kade.h"
 
 /**
- * _strlen - returns the length of a string
+ * kade_strlen - returns the length of a string
  * @s: the string whose length to check
  *
  * Return: integer length of string
@@ -19,7 +19,7 @@ int kade_strlen(char *s)
 }
 
 /**
- * _strcmp - performs lexicogarphic comparison of two strangs.
+ * kade_strcmp - performs lexicogarphic comparison of two strangs.
  * @s1: the first strang
  * @s2: the second strang
  *
@@ -41,7 +41,7 @@ int kade_strcmp(char *s1, char *s2)
 }
 
 /**
- * starts_with - checks if needle starts with haystack
+ * kade_starts_with - checks if needle starts with haystack
  * @haystack: string to search
  * @needle: the substring to find
  *

@@ -44,7 +44,7 @@ int hsh(info_t *info, char **av)
 }
 
 /**
- * int is_cmd(info_t *, char *);find_builtin - finds a builtin command
+ * kade_find_builtin - finds a builtin command
  * @info: the parameter & return info struct
  *
  * Return: -1 if builtin not found,

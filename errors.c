@@ -1,7 +1,7 @@
 #include "kade.h"
 
 /**
- *_eputs - prints an input string
+ *kade_eputs - prints an input string
  * @str: the string to be printed
  *
  * Return: Nothing
@@ -20,7 +20,7 @@ void kade_eputs(char *str)
 }
 
 /**
- * _eputchar - writes the character c to stderr
+ * kade_eputchar - writes the character c to stderr
  * @c: The character to print
  *
  * Return: On success 1.
@@ -42,7 +42,7 @@ int kade_eputchar(char c)
 }
 
 /**
- * _putfd - writes the character c to given fd
+ * kade_putfd - writes the character c to given fd
  * @c: The character to print
  * @fd: The filedescriptor to write to
  *
@@ -65,7 +65,7 @@ int kade_putfd(char c, int fd)
 }
 
 /**
- *_putsfd - prints an input string
+ *kade_putsfd - prints an input string
  * @str: the string to be printed
  * @fd: the filedescriptor to write to
  *

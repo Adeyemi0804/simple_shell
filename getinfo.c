@@ -1,7 +1,7 @@
 #include "kade.h"
 
 /**
- * clear_info - initializes info_t struct
+ * kade_clear_info - initializes info_t struct
  * @info: struct address
  */
 void kade_clear_info(info_t *info)
@@ -13,7 +13,7 @@ void kade_clear_info(info_t *info)
 }
 
 /**
- * set_info - initializes info_t struct
+ * kade_set_info - initializes info_t struct
  * @info: struct address
  * @av: argument vector
  */
@@ -45,7 +45,7 @@ void kade_set_info(info_t *info, char **av)
 }
 
 /**
- * free_info - frees info_t struct fields
+ * kade_free_info - frees info_t struct fields
  * @info: struct address
  * @all: true if freeing all fields
  */

@@ -23,7 +23,7 @@ int kade_is_cmd(info_t *info, char *path)
 }
 
 /**
- * dup_chars - duplicates characters
+ * kade_dup_chars - duplicates characters
  * @pathstr: the PATH string
  * @start: starting index
  * @stop: stopping index
@@ -43,7 +43,7 @@ char *kade_dup_chars(char *pathstr, int start, int stop)
 }
 
 /**
- * find_path - finds this cmd in the PATH string
+ * kade_find_path - finds this cmd in the PATH string
  * @info: the info struct
  * @pathstr: the PATH string
  * @cmd: the cmd to find

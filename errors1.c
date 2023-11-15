@@ -1,7 +1,8 @@
 #include "kade.h"
 
 /**
- * kade@s: the string to be converted
+ * kade_erratoi - read error
+ * @s: the string to be converted
  * Return: 0 if no numbers in string, converted number otherwise
  *       -1 on error
  */
@@ -28,7 +29,7 @@ int kade_erratoi(char *s)
 }
 
 /**
- * print_error - prints an error message
+ * kade_print_error - prints an error message
  * @info: the parameter & return info struct
  * @estr: string containing specified error type
  * Return: 0 if no numbers in string, converted number otherwise
@@ -46,7 +47,7 @@ void kade_print_error(info_t *info, char *estr)
 }
 
 /**
- * print_d - function prints a decimal (integer) number (base 10)
+ * kade_print_d - function prints a decimal (integer) number (base 10)
  * @input: the input
  * @fd: the filedescriptor to write to
  *
@@ -85,7 +86,7 @@ int kade_print_d(int input, int fd)
 }
 
 /**
- * convert_number - converter function, a clone of itoa
+ * kade_convert_number - converter function, a clone of itoa
  * @num: number
  * @base: base
  * @flags: argument flags
@@ -121,7 +122,7 @@ char *kade_convert_number(long int num, int base, int flags)
 }
 
 /**
- * remove_comments - function replaces first instance of '#' with '\0'
+ * kade_remove_comments - function replaces first instance of '#' with '\0'
  * @buf: address of the string to modify
  *
  * Return: Always 0;
